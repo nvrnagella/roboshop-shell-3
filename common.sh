@@ -14,25 +14,6 @@ status_check(){
     exit
   fi
 }
-NODEJS(){
-print_head "setup nodejs repos"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${LOG}
-status_check
-
-print_head "install nodejs"
-yum install nodejs -y &>> ${LOG}
-status_check
-
-APP_PREREQ
-
-print_head "install app dependencies"
-npm install &>> ${LOG}
-status_check
-
-SYSTEMD_SETUP
-
-SCHEMA_LOAD
-}
 
 APP_PREREQ(){
   print_head "add application user"
@@ -82,18 +63,75 @@ SYSTEMD_SETUP(){
 SCHEMA_LOAD(){
   if[ ${schema_load} == "true"]
   then
-    print_head "loading mongodb repo file"
-    cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
-    status_check
+    if[ ${schema_type} == "mongo"]
+    then
+      print_head "loading mongodb repo file"
+      cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
+      status_check
 
-    print_head "installing mongodb-org-shell"
-    yum install mongodb-org-shell &>> ${LOG}
-    status_check
+      print_head "installing mongodb-org-shell"
+      yum install mongodb-org-shell &>> ${LOG}
+      status_check
 
-    print_head "loading mongodb schema"
-    mongo --host MONGODB-SERVER-IPADDRESS </app/schema/${component}.js &>> ${LOG}
-    status_check
+      print_head "loading mongodb schema"
+      mongo --host MONGODB-SERVER-IPADDRESS </app/schema/${component}.js &>> ${LOG}
+      status_check
+    fi
+    if[ ${schema_load} == "mysql"]
+    then
+      print_head "installing mysql "
+      yum install mysql -y &>> ${LOG}
+      status_check
+
+      print_head "load schema"
+      mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} &>> ${LOG}
+      status_check
+    fi
   fi
+}
+
+NODEJS(){
+  print_head "setup nodejs repos"
+  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${LOG}
+  status_check
+
+  print_head "install nodejs"
+  yum install nodejs -y &>> ${LOG}
+  status_check
+
+  APP_PREREQ
+
+  print_head "install app dependencies"
+  npm install &>> ${LOG}
+  status_check
+
+  SYSTEMD_SETUP
+
+  SCHEMA_LOAD
+}
+
+MAVEN(){
+  print_head "install maven"
+  yum install maven -y &>> ${LOG}
+  status_check
+
+  APP_PREREQ
+
+  print_head "install app dependencies"
+  mvn clean package &>> ${LOG}
+  status_check
+
+  print_head "move the tartget file"
+  mv target/${component}-1.0.jar ${component}.jar
+  status_check
+
+  SYSTEMD_SETUP
+
+  SCHEMA_LOAD
+
+  print_head "restarting shipping"
+  systemctl restart ${component}
+  status_check
 }
 
 
