@@ -20,9 +20,13 @@ rm -rf /usr/share/nginx/html/* &>> ${LOG}
 status_check
 
 print_head "extracting nginx content"
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>> ${LOG}
 status_check
 
 print_head "copy nginx reverse proxy configuration file"
 cp ${script_location}/files/roboshop.conf /etc/nginx/default.d/roboshop.conf
+status_check
+
+print_head "restart nginx"
+systemctl restart nginx
 status_check
