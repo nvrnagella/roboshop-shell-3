@@ -23,3 +23,6 @@ print_head "extracting nginx content"
 unzip /tmp/frontend.zip
 status_check
 
+print_head "copy nginx reverse proxy configuration file"
+cp ${script_location}/files/roboshop.conf /etc/nginx/default.d/roboshop.conf
+status_check
