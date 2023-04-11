@@ -5,7 +5,7 @@ cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
 status_check
 
 print_head "install mongodb"
-yum install mongodb-org &>> ${LOG}
+yum install mongodb-org -y &>> ${LOG}
 status_check
 
 print_head "enable mongodb"
