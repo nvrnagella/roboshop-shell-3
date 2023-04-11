@@ -32,7 +32,7 @@ APP_PREREQ(){
   status_check
 
   print_head "remove old app content"
-  rm -rm /app/*
+  rm -rf /app/*
   status_check
 
   print_head "extract app content"
