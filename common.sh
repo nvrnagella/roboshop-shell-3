@@ -1,11 +1,11 @@
 script_location=$(pwd)
 LOG=/tmp/roboshop.log
 
-print_head(){
+print_head (){
   echo -e "\e[1;32m $1 \e[0m"
 }
 
-status_check(){
+status_check (){
   if [ $? -eq 0 ]; then
     echo "SUCCESS"
   else
@@ -15,10 +15,10 @@ status_check(){
   fi
 }
 
-APP_PREREQ(){
+APP_PREREQ (){
   print_head "add application user"
   id roboshop &>> ${LOG}
-  if [ $? -ne 0 ]; then
+  if [ $? != 0 ]; then
     useradd roboshop
   fi
   status_check
@@ -41,7 +41,7 @@ APP_PREREQ(){
   status_check
 }
 
-SYSTEMD_SETUP(){
+SYSTEMD_SETUP (){
   print_head "load systemd file"
   cp ${script_location}/files/${component}.service /etc/systemd/system/${component}.service
   status_check
@@ -55,12 +55,12 @@ SYSTEMD_SETUP(){
   status_check
 
   print_head "start ${component}"
-  systemctl start ${component}
+  systemctl restart ${component}
   status_check
 }
 
-SCHEMA_LOAD(){
-  if [ ${schema_load} == "true" ]; then
+SCHEMA_LOAD (){
+  if [ "${schema_load}" == "true" ]; then
     if [ ${schema_type} == "mongo" ]; then
       print_head "loading mongodb repo file"
       cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
@@ -74,7 +74,7 @@ SCHEMA_LOAD(){
       mongo --host mongodb-dev.nvrnagella.online </app/schema/${component}.js &>> ${LOG}
       status_check
     fi
-    if [ ${schema_load} == "mysql" ]; then
+    if [ "${schema_load}" == "mysql" ]; then
       print_head "installing mysql "
       yum install mysql -y &>> ${LOG}
       status_check
@@ -86,7 +86,7 @@ SCHEMA_LOAD(){
   fi
 }
 
-NODEJS(){
+NODEJS (){
   print_head "setup nodejs repos"
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${LOG}
   status_check
@@ -106,7 +106,7 @@ NODEJS(){
   SCHEMA_LOAD
 }
 
-MAVEN(){
+MAVEN (){
   print_head "install maven"
   yum install maven -y &>> ${LOG}
   status_check
@@ -115,9 +115,6 @@ MAVEN(){
 
   print_head "install app dependencies"
   mvn clean package &>> ${LOG}
-  status_check
-
-  print_head "move the tartget file"
   mv target/${component}-1.0.jar ${component}.jar
   status_check
 
@@ -130,7 +127,7 @@ MAVEN(){
 #  status_check
 }
 
-PYTHON(){
+PYTHON (){
   print_head "install python 3.6 gcc and python devel"
   yum install python36 gcc python3-devel -y &>> ${LOG}
   status_check
@@ -150,7 +147,7 @@ PYTHON(){
   SCHEMA_LOAD
 }
 
-GOLANG(){
+GOLANG (){
   print_head "installing golang"
   yum install golang -y &>> ${LOG}
   status_check
