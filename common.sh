@@ -6,8 +6,7 @@ print_head(){
 }
 
 status_check(){
-  if [ $? -eq 0 ]
-  then
+  if [ $? -eq 0 ];then
     echo "SUCCESS"
   else
     echo "FAILURE"
