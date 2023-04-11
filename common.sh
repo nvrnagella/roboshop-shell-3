@@ -80,7 +80,7 @@ SCHEMA_LOAD(){
       status_check
 
       print_head "load schema"
-      mysql -h mysql-dev.nvrnagella.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>> ${LOG}
+      mysql -h mysql-dev.nvrnagella.online -uroot -p${mysql_root_password} < /app/schema/${component}.sql &>> ${LOG}
       status_check
     fi
   fi
@@ -125,9 +125,9 @@ MAVEN(){
 
   SCHEMA_LOAD
 
-  print_head "restarting shipping"
-  systemctl restart ${component}
-  status_check
+#  print_head "restarting shipping"
+#  systemctl restart ${component}
+#  status_check
 }
 
 PYTHON(){
