@@ -6,7 +6,7 @@ print_head(){
 }
 
 status_check(){
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     echo "SUCCESS"
   else
     echo "FAILURE"
@@ -18,7 +18,7 @@ status_check(){
 APP_PREREQ(){
   print_head "add application user"
   id roboshop
-  if[ $? -ne 0 ];then
+  if[ $? -ne 0 ]; then
     useradd roboshop
   fi
   status_check
@@ -60,10 +60,8 @@ SYSTEMD_SETUP(){
 }
 
 SCHEMA_LOAD(){
-  if[ ${schema_load} == "true"]
-  then
-    if[ ${schema_type} == "mongo"]
-    then
+  if[ ${schema_load} == "true"]; then
+    if[ ${schema_type} == "mongo"]; then
       print_head "loading mongodb repo file"
       cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
       status_check
@@ -76,8 +74,7 @@ SCHEMA_LOAD(){
       mongo --host mongodb-dev.nvrnagella.online </app/schema/${component}.js &>> ${LOG}
       status_check
     fi
-    if[ ${schema_load} == "mysql"]
-    then
+    if[ ${schema_load} == "mysql"]; then
       print_head "installing mysql "
       yum install mysql -y &>> ${LOG}
       status_check
