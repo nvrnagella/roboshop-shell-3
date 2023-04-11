@@ -30,7 +30,10 @@ rabbitmqctl enable rabbitmq-server &>> ${LOG}
 status_check
 
 print_head "RabbitMQ comes with a default username / password as guest/guest. But this user cannot be used to connect. Hence, we need to create one user for the application."
-rabbitmqctl add_user roboshop ${roboshop_rabbitmq_password} &>> ${LOG}
+rabbitmqctl list_users | grep roboshop &>> ${LOG}
+if [ $? -ne 0 ]; then
+  rabbitmqctl add_user roboshop ${roboshop_rabbitmq_password} &>> ${LOG}
+fi
 status_check
 
 print_head "setting admin tag for roboshop user"
