@@ -74,7 +74,7 @@ SCHEMA_LOAD(){
       status_check
 
       print_head "loading mongodb schema"
-      mongo --host MONGODB-SERVER-IPADDRESS </app/schema/${component}.js &>> ${LOG}
+      mongo --host mongodb-dev.nvrnagella.online </app/schema/${component}.js &>> ${LOG}
       status_check
     fi
     if[ ${schema_load} == "mysql"]
@@ -84,7 +84,7 @@ SCHEMA_LOAD(){
       status_check
 
       print_head "load schema"
-      mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} &>> ${LOG}
+      mysql -h mysql-dev.nvrnagella.online -uroot -p${mysql_root_password} &>> ${LOG}
       status_check
     fi
   fi
