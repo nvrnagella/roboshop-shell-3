@@ -28,7 +28,7 @@ APP_PREREQ(){
   status_check
 
   print_head "download app content"
-  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/$component &>> ${LOG}
+  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>> ${LOG}
   status_check
 
   print_head "remove old app content"
