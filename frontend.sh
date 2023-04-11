@@ -20,6 +20,7 @@ rm -rf /usr/share/nginx/html/* &>> ${LOG}
 status_check
 
 print_head "extracting nginx content"
+cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>> ${LOG}
 status_check
 
