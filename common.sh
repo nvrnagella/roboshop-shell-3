@@ -74,7 +74,7 @@ SCHEMA_LOAD (){
       mongo --host mongodb-dev.nvrnagella.online </app/schema/${component}.js &>> ${LOG}
       status_check
     fi
-    if [ "${schema_load}" == "mysql" ]; then
+    if [ "${schema_type}" == "mysql" ]; then
       print_head "installing mysql "
       yum install mysql -y &>> ${LOG}
       status_check
