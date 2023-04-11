@@ -22,11 +22,11 @@ yum install rabbitmq-server -y &>> ${LOG}
 status_check
 
 print_head "start rabbitmq server"
-rabbitmqctl start rabbitmq-server
+systemctl start rabbitmq-server
 status_check
 
 print_head "enable rabbitmq server"
-rabbitmqctl enable rabbitmq-server &>> ${LOG}
+systemctl enable rabbitmq-server &>> ${LOG}
 status_check
 
 print_head "RabbitMQ comes with a default username / password as guest/guest. But this user cannot be used to connect. Hence, we need to create one user for the application."
