@@ -60,8 +60,8 @@ SYSTEMD_SETUP(){
 }
 
 SCHEMA_LOAD(){
-  if[ ${schema_load} == "true"]; then
-    if[ ${schema_type} == "mongo"]; then
+  if [ ${schema_load} == "true" ]; then
+    if [ ${schema_type} == "mongo" ]; then
       print_head "loading mongodb repo file"
       cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
       status_check
@@ -74,7 +74,7 @@ SCHEMA_LOAD(){
       mongo --host mongodb-dev.nvrnagella.online </app/schema/${component}.js &>> ${LOG}
       status_check
     fi
-    if[ ${schema_load} == "mysql"]; then
+    if [ ${schema_load} == "mysql" ]; then
       print_head "installing mysql "
       yum install mysql -y &>> ${LOG}
       status_check
