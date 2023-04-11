@@ -33,13 +33,7 @@ print_head "RabbitMQ comes with a default username / password as guest/guest. Bu
 rabbitmqctl list_users | grep roboshop &>> ${LOG}
 if [ $? -ne 0 ]; then
   rabbitmqctl add_user roboshop ${roboshop_rabbitmq_password} &>> ${LOG}
+  rabbitmqctl set_user_tags roboshop administrator &>> ${LOG}
+  rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> ${LOG}
 fi
-status_check
-
-print_head "setting admin tag for roboshop user"
-rabbitmqctl set_user_tags roboshop administrator &>> ${LOG}
-status_check
-
-print_head "setting permissions for roboshop user"
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> ${LOG}
 status_check
