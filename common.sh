@@ -155,9 +155,9 @@ GOLANG (){
   APP_PREREQ
 
   print_head "installing golang dependencies"
-  go mod init dispatch
-  go get
-  go build
+  go mod init dispatch &>> ${LOG}
+  go get &>> ${LOG}
+  go build &>> ${LOG}
   status_check
 
   print_head "updating password in service file"
