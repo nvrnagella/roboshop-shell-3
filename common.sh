@@ -67,7 +67,7 @@ SCHEMA_LOAD(){
       status_check
 
       print_head "installing mongodb-org-shell"
-      yum install mongodb-org-shell &>> ${LOG}
+      yum install mongodb-org-shell -y &>> ${LOG}
       status_check
 
       print_head "loading mongodb schema"
