@@ -18,7 +18,7 @@ status_check(){
 APP_PREREQ(){
   print_head "add application user"
   id roboshop
-  if[ $? -ne 0 ]; then
+  if [ $? -ne 0 ]; then
     useradd roboshop
   fi
   status_check
