@@ -142,7 +142,33 @@ PYTHON(){
   APP_PREREQ
 
   print_head "download python dependencies"
-  pip3.6 install -r requirements.txt
+  pip3.6 install -r requirements.txt &>> ${LOG}
+  status_check
+
+  print_head "updating password in service file"
+  sed -i -e "s/roboshop_rabbitmq_password/${roboshop_rabbitmq_password}/" ${script_location}/files/payment.service
+  status_check
+
+  SYSTEMD_SETUP
+
+  SCHEMA_LOAD
+}
+
+GOLANG(){
+  print_head "installing golang"
+  yum install golang -y &>> ${LOG}
+  status_check
+
+  APP_PREREQ
+
+  print_head "installing golang dependencies"
+  go mod init dispatch
+  go get
+  go build
+  status_check
+
+  print_head "updating password in service file"
+  sed -i -e "s/roboshop_rabbitmq_password/${roboshop_rabbitmq_password}/" ${script_location}/files/dispatch.service
   status_check
 
   SYSTEMD_SETUP
