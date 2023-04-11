@@ -134,4 +134,18 @@ MAVEN(){
   status_check
 }
 
+PYTHON(){
+  print_head "install python 3.6 gcc and python devel"
+  yum install python36 gcc python3-devel -y &>> ${LOG}
+  status_check
 
+  APP_PREREQ
+
+  print_head "download python dependencies"
+  pip3.6 install -r requirements.txt
+  status_check
+
+  SYSTEMD_SETUP
+
+  SCHEMA_LOAD
+}
