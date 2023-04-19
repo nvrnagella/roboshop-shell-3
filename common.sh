@@ -122,9 +122,9 @@ MAVEN (){
 
   SCHEMA_LOAD
 
-#  print_head "restarting shipping"
-#  systemctl restart ${component}
-#  status_check
+  print_head "restarting shipping"
+  systemctl restart ${component}
+  status_check
 }
 
 PYTHON (){
